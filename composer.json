@@ -17,15 +17,19 @@
     ],
     "require": {
         "php": "^8.0",
-        "druidfi/mysqldump-php": "^1.0",
-        "nunomaduro/termwind": "^1.14",
-        "symfony/dotenv": "^6.1"
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-tokenizer": "*",
+        "ext-xml": "*"
     },
     "require-dev": {
+        "druidfi/mysqldump-php": "^1.0",
         "laravel-zero/framework": "^9.2",
         "laravel/pint": "^1.2",
         "mockery/mockery": "^1.4.4",
-        "pestphp/pest": "^1.21.3"
+        "nunomaduro/termwind": "^1.14",
+        "pestphp/pest": "^1.21.3",
+        "symfony/dotenv": "^6.1"
     },
     "autoload": {
         "psr-4": {
