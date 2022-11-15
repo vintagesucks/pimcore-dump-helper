@@ -16,7 +16,7 @@ composer require vintagesucks/pimcore-dump-helper --dev
 You have to configure `PIMCORE_DB_DSN` in your environment:
 
 ```sh
-PIMCORE_DB_DSN="mysql://root:secret@127.0.0.1:3306/pimcore"
+PIMCORE_DB_DSN="mysql://user:password@127.0.0.1:3306/database"
 ```
 
 Optionally you can set `DUMP_NO_DATA` in your environment to exclude undesired tables from the dump:
