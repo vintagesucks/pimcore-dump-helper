@@ -14,25 +14,14 @@ jobs:
       matrix:
         php:
           - "8.0"
-        pimcore:
-          # - ~10.1.0
-          # - ~10.2.0
-          # - ~10.3.0
-          # - ~10.4.0
-          - ~10.5.0
-        include:
-          - pimcore: ~10.1.0
-            template_tag: v10.1.0
-          - pimcore: ~10.2.0
-            template_tag: v10.1.4
-          - pimcore: ~10.3.0
-            template_tag: v10.1.9
-          - pimcore: ~10.4.0
-            template_tag: v10.1.13
-          - pimcore: ~10.5.0
-            template_tag: v10.2.0
+        skeleton:
+          # - "v10.1.0"  # Pimcore ~10.1.0
+          # - "v10.1.4"  # Pimcore ~10.2.0
+          # - "v10.1.9"  # Pimcore ~10.3.0
+          # - "v10.1.13" # Pimcore ~10.4.0
+          - "v10.2.0"  # Pimcore ~10.5.0
 
-    name: Pimcore ${{ matrix.pimcore }}
+    name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.pimcore }}
 
     steps:
       - name: Clone Skeleton
