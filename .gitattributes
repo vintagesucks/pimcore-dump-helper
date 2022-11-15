@@ -1,11 +1,16 @@
 * text=auto
-/.github export-ignore
-/bin/process-mysqldump.c export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore
+/.github export-ignore
 /.gitignore export-ignore
-/box.json export-ignore
-/phpunit.xml.dist export-ignore
-/pint.json export-ignore
 /README.md export-ignore
+/app export-ignore
+/bin/process-mysqldump.c export-ignore
+/bootstrap export-ignore
+/box.json export-ignore
+/composer.lock export-ignore
+/config export-ignore
+/phpunit.xml.dist export-ignore
+/pimcore-dump-helper
+/pint.json export-ignore
 /tests export-ignore

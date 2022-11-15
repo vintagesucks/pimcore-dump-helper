@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use Druidfi\Mysqldump\Mysqldump;
 use LaravelZero\Framework\Commands\Command;
+use Phar;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Dotenv\Exception\PathException;
 use Symfony\Component\Process\Process;
@@ -33,6 +34,8 @@ class DatabaseDumpCommand extends Command
      */
     public function handle()
     {
+        $binDir = Phar::running(false) === '' ? base_path().'/bin' : dirname(Phar::running(false), 2).'/bin';
+
         try {
             $dotenv = new Dotenv();
             $dotenv->loadEnv(getcwd().'/.env');
@@ -85,7 +88,7 @@ class DatabaseDumpCommand extends Command
             (Process::fromShellCommandline('cat ./dumps/dev/temp*.sql >> ./dumps/dev/concat.sql', getcwd()))->run();
 
             // format insert statements with process-mysqldump
-            (Process::fromShellCommandline(base_path().'/bin/process-mysqldump ./dumps/dev/concat.sql >> ./dumps/dev/latest.sql', getcwd()))->run();
+            (Process::fromShellCommandline($binDir.'/process-mysqldump ./dumps/dev/concat.sql >> ./dumps/dev/latest.sql', getcwd()))->run();
 
             // remove unwanted lines
             (Process::fromShellCommandline('sed -i "" "/@OLD_UNIQUE_CHECKS/d" ./dumps/dev/latest.sql', getcwd()))->run();
