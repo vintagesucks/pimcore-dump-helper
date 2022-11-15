@@ -15,10 +15,10 @@ jobs:
         php:
           - 8.0
         pimcore:
-          - ~10.1.0
-          - ~10.2.0
-          - ~10.3.0
-          - ~10.4.0
+          # - ~10.1.0
+          # - ~10.2.0
+          # - ~10.3.0
+          # - ~10.4.0
           - ~10.5.0
         include:
           - pimcore: ~10.1.0
@@ -45,7 +45,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.22.0
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
