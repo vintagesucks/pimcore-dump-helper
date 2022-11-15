@@ -14,12 +14,9 @@ jobs:
       matrix:
         php:
           - "8.0"
+          - "8.1"
         skeleton:
-          # - "v10.1.0"  # Pimcore ~10.1.0
-          # - "v10.1.4"  # Pimcore ~10.2.0
-          # - "v10.1.9"  # Pimcore ~10.3.0
-          # - "v10.1.13" # Pimcore ~10.4.0
-          - "v10.2.0"  # Pimcore ~10.5.0
+          - "v10.2.2" # Pimcore ^10.5
 
     name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.skeleton }}
 
