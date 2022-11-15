@@ -8,7 +8,7 @@ Pimcore database dump helper with focus on dump readability.
 You can install the package via Composer:
 
 ```bash
-composer require vintagesucks/pimcore-dump-helper
+composer require vintagesucks/pimcore-dump-helper --dev
 ```
 
 ## Configuration
