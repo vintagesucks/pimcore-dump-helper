@@ -3,7 +3,7 @@
     "description": "Pimcore database dump helper with focus on dump readability.",
     "keywords": ["pimcore", "database", "dump", "helper", "laravel zero", "console", "cli"],
     "homepage": "https://github.com/vintagesucks",
-    "type": "project",
+    "type": "pimcore-bundle",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/vintagesucks/pimcore-dump-helper/issues",
@@ -18,11 +18,11 @@
     "require": {
         "php": "^8.0",
         "druidfi/mysqldump-php": "^1.0",
-        "laravel-zero/framework": "^9.2",
         "nunomaduro/termwind": "^1.14",
         "symfony/dotenv": "^6.1"
     },
     "require-dev": {
+        "laravel-zero/framework": "^9.2",
         "laravel/pint": "^1.2",
         "mockery/mockery": "^1.4.4",
         "pestphp/pest": "^1.21.3"
@@ -49,5 +49,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["pimcore-dump-helper"]
+    "bin": ["builds/pimcore-dump-helper"]
 }
