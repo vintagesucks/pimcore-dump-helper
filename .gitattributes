@@ -11,6 +11,6 @@
 /composer.lock export-ignore
 /config export-ignore
 /phpunit.xml.dist export-ignore
-/pimcore-dump-helper
+/pimcore-dump-helper export-ignore
 /pint.json export-ignore
 /tests export-ignore
