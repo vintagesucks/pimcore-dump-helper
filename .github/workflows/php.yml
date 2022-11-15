@@ -21,11 +21,11 @@ jobs:
           # - "v10.1.13" # Pimcore ~10.4.0
           - "v10.2.0"  # Pimcore ~10.5.0
 
-    name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.pimcore }}
+    name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.skeleton }}
 
     steps:
       - name: Clone Skeleton
-        run: git clone -b ${{ matrix.template_tag }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
+        run: git clone -b ${{ matrix.skeleton }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
 
       - uses: actions/checkout@v3.1.0
         with:
