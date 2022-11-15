@@ -50,7 +50,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install local repository
-        run: composer config repositories.package_name local ./packages/pimcore-dump-helper
+        run: composer config repositories.pimcore-dump-helper path ./packages/pimcore-dump-helper
 
       - name: Install local package
-        run: composer require vintagesucks/pimcore-dump-helper
+        run: composer require "vintagesucks/pimcore-dump-helper:dev-main" --dev
