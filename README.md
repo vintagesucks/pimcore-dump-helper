@@ -19,7 +19,7 @@ You have to configure `PIMCORE_DB_DSN` in your environment:
 PIMCORE_DB_DSN="mysql://user:password@127.0.0.1:3306/database"
 ```
 
-Optionally you can set `DUMP_NO_DATA` in your environment to exclude undesired tables from the dump:
+Optionally you can set `DUMP_NO_DATA` to skip data for some tables:
 
 ```sh
 DUMP_NO_DATA="cache_items,edit_lock,tmp_store"
