@@ -13,20 +13,14 @@ jobs:
     strategy:
       matrix:
         php:
-          - "8.0"
           - "8.1"
-        skeleton:
-          - "v10.2.2" # Pimcore ^10.5
+          - "8.2"
 
-    name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.skeleton }}
+    name: PHP ${{ matrix.php }}
 
     steps:
-      - name: Clone Skeleton
-        run: git clone -b ${{ matrix.skeleton }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
-
-      - uses: actions/checkout@v3.3.0
-        with:
-          path: ./packages/pimcore-dump-helper
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@2.23.0
@@ -46,8 +40,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install local repository
-        run: composer config repositories.pimcore-dump-helper path ./packages/pimcore-dump-helper
+      - name: Install dependencies (composer)
+        run: composer install --prefer-dist
 
-      - name: Install local package
-        run: composer require "vintagesucks/pimcore-dump-helper:@dev" --dev
+      - name: Check code style (PHP)
+        run: ./vendor/bin/pint --test
