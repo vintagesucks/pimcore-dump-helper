@@ -1,0 +1,54 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php:
+          - "8.0"
+          - "8.1"
+          - "8.2"
+        skeleton:
+          - "v10.2.2" # Pimcore ^10.5
+
+    name: Install - PHP ${{ matrix.php }} / Skeleton ${{ matrix.skeleton }}
+
+    steps:
+      - name: Clone Skeleton
+        run: git clone -b ${{ matrix.skeleton }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
+
+      - uses: actions/checkout@v3.3.0
+        with:
+          path: ./packages/pimcore-dump-helper
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.23.0
+        with:
+          php-version: ${{ matrix.php }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies (composer)
+        uses: actions/cache@v3.2.3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install local repository
+        run: composer config repositories.pimcore-dump-helper path ./packages/pimcore-dump-helper
+
+      - name: Install local package
+        run: composer require "vintagesucks/pimcore-dump-helper:@dev" --dev
