@@ -16,7 +16,7 @@ jobs:
           - "8.1"
           - "8.2"
 
-    name: Build - PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout
