@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "druidfi/mysqldump-php": "^1.0.1",
-        "laravel-zero/framework": "^9.2",
+        "laravel-zero/framework": "^10.0",
         "laravel/pint": "^1.2",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/termwind": "^1.14.2",
