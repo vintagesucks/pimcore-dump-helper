@@ -287,16 +287,16 @@
         },
         {
             "name": "druidfi/mysqldump-php",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/druidfi/mysqldump-php.git",
-                "reference": "9acf0537819e957fcb4a589371abfa7ec19259b5"
+                "reference": "15da1dd26e638674bc73fd963b33b26282c14c96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/druidfi/mysqldump-php/zipball/9acf0537819e957fcb4a589371abfa7ec19259b5",
-                "reference": "9acf0537819e957fcb4a589371abfa7ec19259b5",
+                "url": "https://api.github.com/repos/druidfi/mysqldump-php/zipball/15da1dd26e638674bc73fd963b33b26282c14c96",
+                "reference": "15da1dd26e638674bc73fd963b33b26282c14c96",
                 "shasum": ""
             },
             "require": {
@@ -345,9 +345,9 @@
             ],
             "support": {
                 "issues": "https://github.com/druidfi/mysqldump-php/issues",
-                "source": "https://github.com/druidfi/mysqldump-php/tree/1.0.1"
+                "source": "https://github.com/druidfi/mysqldump-php/tree/1.0.2"
             },
-            "time": "2022-08-24T11:17:32+00:00"
+            "time": "2022-12-31T09:51:45+00:00"
         },
         {
             "name": "filp/whoops",
