@@ -26,7 +26,6 @@
         "druidfi/mysqldump-php": "^1.0.1",
         "laravel-zero/framework": "^9.2",
         "laravel/pint": "^1.2",
-        "mockery/mockery": "^1.5.1",
         "nunomaduro/termwind": "^1.14.2",
         "pestphp/pest": "^1.22.2",
         "symfony/dotenv": "^6.1"
