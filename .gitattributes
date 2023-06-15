@@ -16,3 +16,5 @@
 /pimcore-dump-helper export-ignore
 /pint.json export-ignore
 /tests export-ignore
+/.env export-ignore
+/test.sql export-ignore
