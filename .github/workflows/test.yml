@@ -31,7 +31,7 @@ jobs:
       - name: Clone Skeleton
         run: git clone -b ${{ matrix.skeleton }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
 
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
         with:
           path: ./packages/pimcore-dump-helper
 
