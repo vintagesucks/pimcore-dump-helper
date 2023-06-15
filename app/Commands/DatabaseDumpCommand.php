@@ -36,15 +36,13 @@ class DatabaseDumpCommand extends Command
     {
         $binDir = Phar::running(false) === '' ? base_path().'/bin' : dirname(Phar::running(false), 2).'/bin';
 
+        $processBinary = $binDir.DIRECTORY_SEPARATOR.$this->getProcessBinary();
+
         try {
             $dotenv = new Dotenv();
             $dotenv->loadEnv(getcwd().'/.env');
         } catch (PathException $exception) {
-            render(<<<HTML
-                <span>{$exception->getMessage()}</span>
-            HTML);
-
-            return Command::FAILURE;
+            $this->fail($exception->getMessage());
         }
 
         try {
@@ -59,6 +57,10 @@ class DatabaseDumpCommand extends Command
                 'disable-keys' => false,
                 'no-autocommit' => false,
             ];
+
+            if (! file_exists('dumps/dev')) {
+                mkdir('dumps/dev', 0777, true);
+            }
 
             if (isset($_ENV['DUMP_NO_DATA']) && $noData = array_filter(explode(',', $_ENV['DUMP_NO_DATA']))) {
                 // dump tables without data
@@ -82,27 +84,23 @@ class DatabaseDumpCommand extends Command
             }
 
             // remove latest dump
-            (new Process(['rm', '-f', './dumps/dev/latest.sql'], getcwd()))->run();
+            (new Process(['rm', '-f', './dumps/dev/latest.sql'], getcwd()))->mustRun();
 
             // concat dumps
-            (Process::fromShellCommandline('cat ./dumps/dev/temp*.sql >> ./dumps/dev/concat.sql', getcwd()))->run();
+            (Process::fromShellCommandline('cat ./dumps/dev/temp*.sql >> ./dumps/dev/concat.sql', getcwd()))->mustRun();
 
             // format insert statements with process-mysqldump
-            (Process::fromShellCommandline($binDir.'/process-mysqldump ./dumps/dev/concat.sql >> ./dumps/dev/latest.sql', getcwd()))->run();
+            (Process::fromShellCommandline("$processBinary ./dumps/dev/concat.sql >> ./dumps/dev/latest.sql", getcwd()))->mustRun();
 
             // remove unwanted lines
-            (Process::fromShellCommandline('sed -i "" "/@OLD_UNIQUE_CHECKS/d" ./dumps/dev/latest.sql', getcwd()))->run();
-            (Process::fromShellCommandline('sed -i "" "/character_set_client/d" ./dumps/dev/latest.sql', getcwd()))->run();
+            (Process::fromShellCommandline('sed -i "" "/@OLD_UNIQUE_CHECKS/d" ./dumps/dev/latest.sql', getcwd()))->mustRun();
+            (Process::fromShellCommandline('sed -i "" "/character_set_client/d" ./dumps/dev/latest.sql', getcwd()))->mustRun();
 
             // remove temporary files
-            (new Process(['rm', '-f', './dumps/dev/concat.sql'], getcwd()))->run();
-            (Process::fromShellCommandline('rm -f ./dumps/dev/temp*.sql', getcwd()))->run();
+            (new Process(['rm', '-f', './dumps/dev/concat.sql'], getcwd()))->mustRun();
+            (Process::fromShellCommandline('rm -f ./dumps/dev/temp*.sql', getcwd()))->mustRun();
         } catch (\Throwable $throwable) {
-            render(<<<HTML
-                <span>{$throwable->getMessage()}</span>
-            HTML);
-
-            return Command::FAILURE;
+            $this->fail($throwable->getMessage());
         }
 
         render(<<<'HTML'
@@ -129,5 +127,24 @@ class DatabaseDumpCommand extends Command
             $dsn['password'],
             $pdoOptions,
         );
+    }
+
+    private function getProcessBinary(): string
+    {
+        return match (PHP_OS_FAMILY) {
+            'Darwin' => 'process-mysqldump-macos',
+            default => $this->fail(PHP_OS_FAMILY.' is currently not supported.'),
+        };
+    }
+
+    private function fail(string $message): int
+    {
+        render(<<<HTML
+            <div class="py-1 ml-2">
+            <span>Error: {$message}</span>
+            </div>
+        HTML);
+
+        exit(Command::FAILURE);
     }
 }

@@ -3,6 +3,10 @@
 
 Pimcore database dump helper with focus on dump readability.
 
+## Compatibility
+
+* macOS (x86_64, arm64)
+
 ## Installation
 
 You can install the package via Composer:

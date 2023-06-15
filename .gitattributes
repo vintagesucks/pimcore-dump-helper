@@ -5,6 +5,8 @@
 /.gitignore export-ignore
 /README.md export-ignore
 /app export-ignore
+/bin/Dockerfile-ubuntu-amd64 export-ignore
+/bin/Makefile export-ignore
 /bin/process-mysqldump.c export-ignore
 /bootstrap export-ignore
 /box.json export-ignore

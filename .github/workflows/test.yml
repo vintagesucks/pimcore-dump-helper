@@ -8,19 +8,26 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os:
+          - "macos-latest"
         php:
           - "8.1"
           - "8.2"
         skeleton:
           - "v10.2.2" # Pimcore ^10.5
 
-    name: PHP ${{ matrix.php }} / Skeleton ${{ matrix.skeleton }}
+    name: PHP ${{ matrix.php }}, Skeleton ${{ matrix.skeleton }}, ${{ matrix.os }}
 
     steps:
+      - uses: ankane/setup-mysql@v1
+        with:
+          mysql-version: 8.0
+          database: pimcore-dump-helper
+
       - name: Clone Skeleton
         run: git clone -b ${{ matrix.skeleton }} --single-branch --depth 1 https://github.com/pimcore/skeleton.git .
 
@@ -51,3 +58,18 @@ jobs:
 
       - name: Install local package
         run: composer require "vintagesucks/pimcore-dump-helper:@dev" --dev
+
+      - name: Create .env
+        run: cp ./packages/pimcore-dump-helper/.env .env
+
+      - name: Import test.sql
+        run: mysql -D pimcore-dump-helper < ./packages/pimcore-dump-helper/test.sql
+
+      - name: database:dump
+        run: vendor/bin/pimcore-dump-helper database:dump
+
+      - name: cat latest.sql
+        run: cat dumps/dev/latest.sql
+
+      - name: Validate latest.sql
+        run: cat dumps/dev/latest.sql | wc -l | grep 26

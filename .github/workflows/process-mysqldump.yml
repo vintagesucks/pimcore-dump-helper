@@ -1,0 +1,30 @@
+name: process-mysqldump
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - "macos-latest"
+          - "ubuntu-latest"
+
+    name: test
+
+    steps:
+      - uses: actions/checkout@v3.5.2
+
+      - name: macos
+        if: startsWith(matrix.os, 'macos')
+        run: bin/process-mysqldump-macos test.sql | wc -l | grep 7
+
+      - name: ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        run: bin/process-mysqldump-ubuntu-amd64 test.sql | wc -l | grep 7
