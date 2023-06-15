@@ -1,2 +1,6 @@
+bin/process-mysqldump-macos-arm64
+bin/process-mysqldump-macos-x86_64
+.env.local
+/dumps
 /vendor
 .phpunit.result.cache

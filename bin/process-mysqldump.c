@@ -1,9 +1,8 @@
 // Author: Sébastien Lavoie (https://github.com/lavoiesl)
 // Source: https://gist.github.com/lavoiesl/9a08e399fc9832d12794
 
-// gcc -O2 -Wall -pedantic process-mysqldump.c -o process-mysqldump
-// Usage: cat dump.sql | process-mysqldump
-//   Or : process-mysqldump dump.sql
+// Usage: cat dump.sql | ./process-mysqldump
+//   Or : ./process-mysqldump dump.sql
 
 #include <stdio.h>
 #include <stdlib.h>
