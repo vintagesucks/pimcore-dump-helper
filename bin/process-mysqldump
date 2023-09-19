@@ -30,7 +30,7 @@ function readLinesFromFile($filePath)
 {
     $file = fopen($filePath, 'r');
     if ($file === false) {
-        throw new Exception("Failed to open file: $filePath");
+        throw new \Exception("Failed to open file: $filePath");
     }
 
     while (($line = fgets($file)) !== false) {
@@ -87,7 +87,7 @@ function processLine(string $line): void
                     if ($parenthesis) {
                         $parenthesis = false;
                     } else {
-                        throw new Exception('closing parenthesis without open');
+                        throw new \Exception('closing parenthesis without open');
                     }
                 }
                 $escape = false;
