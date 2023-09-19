@@ -5,7 +5,8 @@ Pimcore database dump helper with focus on dump readability.
 
 ## Compatibility
 
-* macOS (x86_64, arm64)
+> [!NOTE]
+> pimcore-dump-helper is not compatible with Windows at this time.
 
 ## Installation
 
@@ -33,4 +34,15 @@ DUMP_NO_DATA="cache_items,edit_lock,tmp_store"
 
 ```bash
 vendor/bin/pimcore-dump-helper database:dump
+```
+
+## Development
+
+### Testing process-mysqldump with `act` (macOS)
+
+```sh
+act -W .github/workflows/process-mysqldump.yml \
+    -P macos-latest=-self-hosted \
+    -P ubuntu-latest=shivammathur/node:latest \
+    --container-architecture linux/amd64
 ```

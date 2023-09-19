@@ -72,4 +72,4 @@ jobs:
         run: cat dumps/dev/latest.sql
 
       - name: Validate latest.sql
-        run: cat dumps/dev/latest.sql | wc -l | grep 26
+        run: cat dumps/dev/latest.sql | wc -l | grep 25

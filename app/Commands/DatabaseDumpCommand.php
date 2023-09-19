@@ -36,7 +36,7 @@ class DatabaseDumpCommand extends Command
     {
         $binDir = Phar::running(false) === '' ? base_path().'/bin' : dirname(Phar::running(false), 2).'/bin';
 
-        $processBinary = $binDir.DIRECTORY_SEPARATOR.$this->getProcessBinary();
+        $processBinary = $binDir.DIRECTORY_SEPARATOR.'process-mysqldump';
 
         try {
             $dotenv = new Dotenv();
@@ -127,14 +127,6 @@ class DatabaseDumpCommand extends Command
             $dsn['password'],
             $pdoOptions,
         );
-    }
-
-    private function getProcessBinary(): string
-    {
-        return match (PHP_OS_FAMILY) {
-            'Darwin' => 'process-mysqldump-macos',
-            default => $this->fail(PHP_OS_FAMILY.' is currently not supported.'),
-        };
     }
 
     private function fail(string $message): int
