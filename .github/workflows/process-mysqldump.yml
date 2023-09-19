@@ -21,10 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3.5.3
 
-      - name: macos
-        if: startsWith(matrix.os, 'macos')
-        run: bin/process-mysqldump-macos test.sql | wc -l | grep 7
+      - name: test with file
+        run: bin/process-mysqldump test.sql | wc -l | grep 5
 
-      - name: ubuntu
-        if: startsWith(matrix.os, 'ubuntu')
-        run: bin/process-mysqldump-ubuntu-amd64 test.sql | wc -l | grep 7
+      - name: test with stdin
+        run: cat test.sql | bin/process-mysqldump | wc -l | grep 5

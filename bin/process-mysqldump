@@ -1,0 +1,117 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Original authors of process-mysqldump.c and various forks
+ *
+ * @author Sébastien Lavoie
+ * @author divinity76
+ * @author Colin Mollenhour
+ *
+ * @see https://gist.github.com/lavoiesl/9a08e399fc9832d12794
+ * @see https://gist.github.com/divinity76/494fef3d2ea1b800bb98e13db9c3ec3a
+ * @see https://gist.github.com/colinmollenhour/cf23b0f7e955267ed1107c9edb07f7c2
+ */
+if (isset($argv[1])) {
+    $lines = readLinesFromFile($argv[1]);
+} else {
+    $lines = readLinesFromInput();
+}
+
+foreach ($lines as $line) {
+    if (substr($line, 0, 6) === 'INSERT') {
+        processLine($line);
+    } else {
+        echo $line;
+    }
+}
+
+function readLinesFromFile($filePath)
+{
+    $file = fopen($filePath, 'r');
+    if ($file === false) {
+        throw new Exception("Failed to open file: $filePath");
+    }
+
+    while (($line = fgets($file)) !== false) {
+        yield $line;
+    }
+
+    fclose($file);
+}
+
+function readLinesFromInput()
+{
+    $line = fgets(STDIN, 1 * 1024 * 1024);
+    while ($line !== false) {
+        if ($line[strlen($line) - 1] !== "\n") {
+            while (true) {
+                $tmp = fgets(STDIN, 1 * 1024 * 1024);
+                if ($tmp === false) {
+                    break;
+                }
+                $line .= $tmp;
+                if ($tmp[strlen($tmp) - 1] === "\n") {
+                    break;
+                }
+            }
+        }
+        yield $line;
+        $line = fgets(STDIN, 1 * 1024 * 1024);
+    }
+}
+
+function processLine(string $line): void
+{
+    $length = strlen($line);
+    $pos = strpos($line, ' VALUES ') + 8;
+    $ret = substr($line, 0, $pos);
+    $parenthesis = false;
+    $quote = false;
+    $escape = false;
+    for ($i = $pos; $i < $length; $i++) {
+        switch ($line[$i]) {
+            case '(':
+                if (! $quote) {
+                    if ($parenthesis) {
+                        throw new \Exception('double open parenthesis');
+                    } else {
+                        $ret .= "\n";
+                        $parenthesis = true;
+                    }
+                }
+                $escape = false;
+                break;
+            case ')':
+                if (! $quote) {
+                    if ($parenthesis) {
+                        $parenthesis = false;
+                    } else {
+                        throw new Exception('closing parenthesis without open');
+                    }
+                }
+                $escape = false;
+                break;
+            case '\\':
+                $escape = ! $escape;
+                break;
+            case "'":
+                if ($escape) {
+                    $escape = false;
+                } else {
+                    $quote = ! $quote;
+                }
+                break;
+            default:
+                $escape = false;
+                break;
+        }
+        $ret .= $line[$i];
+        $to = strcspn($line, '()\\\'', $i + 1) - 1;
+        if ($to > 0) {
+            $ret .= substr($line, $i + 1, $to);
+            $i += ($to);
+        }
+    }
+    echo $ret;
+}
