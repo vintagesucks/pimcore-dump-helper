@@ -36,7 +36,7 @@ jobs:
           path: ./packages/pimcore-dump-helper
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.25.4
+        uses: shivammathur/setup-php@2.30.1
         with:
           php-version: ${{ matrix.php }}
         env:
